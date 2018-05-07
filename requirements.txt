@@ -1,0 +1,15 @@
+certifi==2017.7.27.1
+chardet==3.0.4
+Django==1.11.4
+django-cors-headers==2.1.0
+django-oauth-toolkit==1.0.0
+django-rest-auth==0.9.3
+djangorestframework==3.6.4
+idna==2.6
+oauthlib==2.0.2
+olefile==0.44
+Pillow==4.2.1
+pytz==2017.2
+requests==2.18.4
+six==1.11.0
+urllib3==1.22
