@@ -43,8 +43,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'usermanagerapp',
     'userprofilesapp',
-
-
+    "rest_framework.authtoken",
 ]
 CORS_ORIGIN_ALLOW_ALL = True
 
@@ -143,3 +142,8 @@ REST_FRAMEWORK = {
         'oauth2_provider.contrib.rest_framework.OAuth2Authentication',
     )
 }
+
+REST_AUTH_SERIALIZERS = {
+    'USER_DETAILS_SERIALIZER': './usermanagerapp.serializers.',
+}
+

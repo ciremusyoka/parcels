@@ -8,15 +8,20 @@ from rest_framework.response import Response
 from rest_framework.status import HTTP_200_OK,HTTP_400_BAD_REQUEST,HTTP_201_CREATED
 from .permissions import IsSender
 
-class ParcelsList(generics.ListCreateAPIView):
+class ParcelsList(generics.CreateAPIView):
     # permission_classes = (permissions.IsAuthenticated,)
     serializer_class = ParcelSerializer
     queryset = Parcels.objects.all()
 
+class UserParcelsList(generics.ListAPIView):
+    serializer_class = ParcelSerializer
+
     def get_queryset(self):
-        return Parcels.objects.all()
+        user = self.request.user
+        return Parcels.objects.filter(sender=user)
 
 class RetrieveUpdateParcel(generics.RetrieveUpdateAPIView):
+    permission_classes = (IsSender,)
     serializer_class = ParcelSerializer
     queryset = Parcels.objects.all()
 
