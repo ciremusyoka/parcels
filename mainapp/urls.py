@@ -15,6 +15,8 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -22,4 +24,4 @@ urlpatterns = [
     url(r'^api/', include('usermanagerapp.urls', namespace='users')),
     url(r'^api/', include('userprofilesapp.urls', namespace='profile')),
     url(r'^o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
-]
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
