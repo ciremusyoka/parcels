@@ -106,6 +106,19 @@ class UsersSerializer(serializers.ModelSerializer):
         model=User
         fields=('__all__')
 
+#user info serializer
+class UserInfoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('__all__')
+
+#serializer to filter Transporters
+class TransportersSerializer(serializers.ModelSerializer):
+    user = UserInfoSerializer(required=True)
+    class Meta:
+        model = Profile
+        fields = ('__all__')
+
 # change users password
 class ChangePasswordSerializer(serializers.ModelSerializer):
     """

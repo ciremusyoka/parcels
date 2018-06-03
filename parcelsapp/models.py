@@ -17,6 +17,9 @@ class Parcels(models.Model):
     transporter = models.ForeignKey('auth.User', null=True, blank=True, related_name='parcels_transporter')
     DeliveredSender = models.BooleanField(default=False)
     DeliveredTransporter = models.BooleanField(default=False)
+    receiver_name = models.CharField(max_length=50)
+    receiver_phone = models.IntegerField()
+    date = models.DateField()
 
 
 

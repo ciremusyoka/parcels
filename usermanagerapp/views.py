@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 from django.shortcuts import render
-from .serializers import CreateUserSerializer, LoginUserSerializer, UsersSerializer, ChangePasswordSerializer, UpdateUserSerializer, ResetPasswordSerializer
+from .serializers import CreateUserSerializer, LoginUserSerializer, UsersSerializer,\
+    ChangePasswordSerializer, UpdateUserSerializer, ResetPasswordSerializer, TransportersSerializer
 from rest_framework import generics,permissions
 from django.contrib.auth import get_user_model
 from rest_framework.response import Response
@@ -11,6 +12,7 @@ from django.contrib.auth.models import Group, User
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authtoken.models import Token
 from .permissions import IsOwner
+from .models import Profile
 
 # end point for creating user
 class CreateUserView(generics.CreateAPIView):
@@ -44,7 +46,6 @@ class UsersListView(generics.ListCreateAPIView):
     queryset = User.objects.all()
     serializer_class = UsersSerializer
 
-
 # end point for editing user details
 class RetrieveUpdateUsers(generics.RetrieveUpdateAPIView):
     # permission_classes = (permissions.IsAuthenticated, IsOwner,)
@@ -59,6 +60,8 @@ class RetrieveUpdateUsers(generics.RetrieveUpdateAPIView):
             serializer_class = UpdateUserSerializer
             return serializer_class
 
+
+
     # def get_object(self):
     #     obj = self.request.user
     #     id = obj.profile.IdNo
@@ -70,6 +73,21 @@ class RetrieveUpdateUsers(generics.RetrieveUpdateAPIView):
     #     print ('hello')
     #     self.id.save()
 
+#filter to get trnsporters
+class FilterTransporters(generics.ListAPIView):
+    serializer_class = TransportersSerializer
+    queryset = Profile.objects.all()
+
+
+    def filter_queryset(self, queryset):
+        county = self.request.query_params.get('county', None)
+        accepted = self.request.query_params.get('Transporter_Accepted', None)
+        if county is not None:
+            queryset = queryset.filter(county=county)
+        if accepted is not None:
+            queryset = queryset.filter(Transporter_Accepted=accepted)
+        return queryset
+
 # change users password
 class ChangePasswordView(generics.UpdateAPIView):
     """
@@ -77,10 +95,11 @@ class ChangePasswordView(generics.UpdateAPIView):
     """
     serializer_class = ChangePasswordSerializer
     model = get_user_model()
-    permission_classes = (permissions.IsAuthenticated,)
+    # permission_classes = (permissions.IsAuthenticated,)
 
     def get_object(self, queryset=None):
         obj = self.request.user
+        print(obj)
         return obj
 
     def update(self, request, *args, **kwargs):

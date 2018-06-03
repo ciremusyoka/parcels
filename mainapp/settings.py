@@ -42,7 +42,6 @@ INSTALLED_APPS = [
     'oauth2_provider',
     'corsheaders',
     'usermanagerapp',
-    'userprofilesapp',
     "rest_framework.authtoken",
 ]
 CORS_ORIGIN_ALLOW_ALL = True
