@@ -25,7 +25,9 @@ SECRET_KEY = '*6kj5ohu5@2y1z)@p9n@iiy9z*zfv$yhx3n_$==@#c4l35nb5='
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'parcel.cloudapp.net'
+]
 
 
 # Application definition
