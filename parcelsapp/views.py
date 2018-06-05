@@ -21,7 +21,7 @@ class UserParcelsList(generics.ListAPIView):
         return Parcels.objects.filter(sender=user)
 
 class RetrieveUpdateParcel(generics.RetrieveUpdateAPIView):
-    permission_classes = (IsSender,)
+    # permission_classes = (IsSender,)
     serializer_class = ParcelSerializer
     queryset = Parcels.objects.all()
 

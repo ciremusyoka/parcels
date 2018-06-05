@@ -26,7 +26,8 @@ SECRET_KEY = '*6kj5ohu5@2y1z)@p9n@iiy9z*zfv$yhx3n_$==@#c4l35nb5='
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    'parcel.cloudapp.net'
+    'parcel.cloudapp.net',
+    '127.0.0.1'
 ]
 
 
@@ -40,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'jobs',
     'parcelsapp',
     'oauth2_provider',
     'corsheaders',

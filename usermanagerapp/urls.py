@@ -8,7 +8,7 @@ urlpatterns = [
     url(r'^users$', UsersListView.as_view(), name='users'),
     url(r'^transporters$', FilterTransporters.as_view(), name='transporter'),
     url(r'^user/(?P<username>[a-z, A-Z, 0-9]+)$', RetrieveUpdateUsers.as_view(), name='edit-users'),
-    url(r'^password$', ChangePasswordView.as_view(), name='password'),
+    url(r'^change_password$', ChangePasswordView.as_view(), name='password'),
     url(r'^reset_password$',ResetPasswordView.as_view(), name='reset_password'),
     # url(r'^token/', CustomObtainAuthToken.as_view()),
 ]

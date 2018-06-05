@@ -22,5 +22,6 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^api/', include('parcelsapp.urls', namespace='parcel')),
     url(r'^api/', include('usermanagerapp.urls', namespace='users')),
+    url(r'^api/', include('jobs.urls', namespace='jobs')),
     url(r'^o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
