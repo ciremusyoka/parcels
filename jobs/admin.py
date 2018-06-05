@@ -5,8 +5,8 @@ from django.contrib import admin
 from .models import JobsModel
 
 class JobsAdmin(admin.ModelAdmin):
-    list_display = ['id', 'sender', 'transporter', 'date', 'accepted', 'complete']
+    list_display = ['id', 'sender', 'transporter', 'date', 'accepted', 'completed']
 
-admin.site.register(JobsModel)
+admin.site.register(JobsModel,JobsAdmin)
 
 

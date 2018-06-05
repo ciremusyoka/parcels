@@ -3,6 +3,7 @@ from django.contrib.auth import get_user_model
 from django.db.models import Q
 from django.contrib.auth.models import User, Group
 from .models import Profile, Verification
+from time import sleep
 
 
 #verivication code
@@ -30,6 +31,7 @@ class CreateUserSerializer(serializers.ModelSerializer):
     profile = ProfileSerializer(required=True)
     password=serializers.CharField(write_only=True)
     email = serializers.CharField(required=True)
+    # user_id = serializers.CharField(required=True)
     # verification_code = VerificationSerializer(required=True)
 
     def create (self, validated_data):
@@ -43,6 +45,8 @@ class CreateUserSerializer(serializers.ModelSerializer):
         )
         password = user.set_password(validated_data['password']),
         user.save()
+        sleep(0.15)
+        print "delay"
         # create profile
         profile_data = validated_data.pop('profile')
         profile = Profile.objects.create(
@@ -54,6 +58,7 @@ class CreateUserSerializer(serializers.ModelSerializer):
             Id_No = profile_data['Id_No'],
             photo = profile_data['photo']
             )
+        print "done"
         #generate verification code
         # verification_code_data = validated_data.pop('verification_code')
         # verification_code = Verification.objects.create(
