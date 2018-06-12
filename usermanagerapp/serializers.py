@@ -28,9 +28,11 @@ class UpdateProfileSerializer(serializers.ModelSerializer):
 
 # create user serializer
 class CreateUserSerializer(serializers.ModelSerializer):
-    profile = ProfileSerializer(required=True)
+    # profile = ProfileSerializer(required=True)
     password=serializers.CharField(write_only=True)
     email = serializers.CharField(required=True)
+    first_name = serializers.CharField(required=True)
+    last_name = serializers.CharField(required=True)
     # user_id = serializers.CharField(required=True)
     # verification_code = VerificationSerializer(required=True)
 
@@ -45,20 +47,17 @@ class CreateUserSerializer(serializers.ModelSerializer):
         )
         password = user.set_password(validated_data['password']),
         user.save()
-        sleep(0.15)
-        print "delay"
         # create profile
-        profile_data = validated_data.pop('profile')
-        profile = Profile.objects.create(
-            user=user,
-            Phone_Number = profile_data['Phone_Number'],
-            county = profile_data['county'],
-            constituency = profile_data['constituency'],
-            town = profile_data['town'],
-            Id_No = profile_data['Id_No'],
-            photo = profile_data['photo']
-            )
-        print "done"
+        # profile_data = validated_data.pop('profile')
+        # profile = Profile.objects.create(
+        #     user=user,
+        #     Phone_Number = profile_data['Phone_Number'],
+        #     county = profile_data['county'],
+        #     constituency = profile_data['constituency'],
+        #     town = profile_data['town'],
+        #     Id_No = profile_data['Id_No'],
+        #     photo = profile_data['photo']
+        #     )
         #generate verification code
         # verification_code_data = validated_data.pop('verification_code')
         # verification_code = Verification.objects.create(
@@ -68,7 +67,7 @@ class CreateUserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = get_user_model()
-        fields = ('username', 'email', 'password','id', 'first_name', 'last_name', 'profile',)
+        fields = ('username', 'email', 'id', 'first_name', 'last_name', 'password',)
 
 
 # update user details serializer
@@ -113,9 +112,10 @@ class UsersSerializer(serializers.ModelSerializer):
 
 #user info serializer
 class UserInfoSerializer(serializers.ModelSerializer):
+    profile = ProfileSerializer(required=True)
     class Meta:
-        model = User
-        fields = ('__all__')
+        model = get_user_model()
+        fields = ('username', 'email', 'id', 'first_name', 'last_name', 'password', 'profile')
 
 #serializer to filter Transporters
 class TransportersSerializer(serializers.ModelSerializer):

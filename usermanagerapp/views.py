@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 from django.shortcuts import render
-from .serializers import CreateUserSerializer, LoginUserSerializer, UsersSerializer,\
-    ChangePasswordSerializer, UpdateUserSerializer, ResetPasswordSerializer, TransportersSerializer
+from .serializers import CreateUserSerializer, LoginUserSerializer, UsersSerializer, ProfileSerializer,\
+    ChangePasswordSerializer, UpdateUserSerializer, ResetPasswordSerializer, TransportersSerializer, \
+    UserInfoSerializer
 from rest_framework import generics,permissions
 from django.contrib.auth import get_user_model
 from rest_framework.response import Response
@@ -27,6 +28,11 @@ class CreateUserView(generics.CreateAPIView):
             return Response(serializer.data, status=HTTP_201_CREATED)
         return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
 
+#end point for creating user profile
+class CreateProfileView(generics.CreateAPIView):
+    queryset = Profile.objects.all()
+    serializer_class = ProfileSerializer
+
 
 class LoginUserView(APIView):
     serializer_class = LoginUserSerializer
@@ -46,6 +52,14 @@ class UsersListView(generics.ListCreateAPIView):
     queryset = User.objects.all()
     serializer_class = UsersSerializer
 
+#end point of getting user id easily
+class RetrieveUserIDView(generics.RetrieveAPIView):
+    queryset = User.objects.all()
+    serializer_class = CreateUserSerializer
+    lookup_field = 'username'
+
+
+
 # end point for editing user details
 class RetrieveUpdateUsers(generics.RetrieveUpdateAPIView):
     # permission_classes = (permissions.IsAuthenticated, IsOwner,)
@@ -54,7 +68,7 @@ class RetrieveUpdateUsers(generics.RetrieveUpdateAPIView):
 
     def get_serializer_class(self):
         if self.request.method == 'GET':
-            serializer_class = CreateUserSerializer
+            serializer_class = UserInfoSerializer
             return serializer_class
         else:
             serializer_class = UpdateUserSerializer
@@ -119,6 +133,8 @@ class ChangePasswordView(generics.UpdateAPIView):
 
 class ResetPasswordView(APIView):
     serializer_class = ResetPasswordSerializer
+
+
     model = get_user_model()
     def post(self, request, *args, **kwargs):
 

@@ -5,9 +5,9 @@ from django.db import models
 import uuid
 import os
 
-# from django.db.models.signals import post_save
-# from django.dispatch import receiver
-# from django.contrib.auth.models import User
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from django.contrib.auth.models import User
 
 def get_file_path(instance, filename):
     ext = filename.split('.')[-1]
@@ -15,8 +15,8 @@ def get_file_path(instance, filename):
     return os.path.join('media', filename)
 
 class Profile(models.Model):
-    user = models.OneToOneField('auth.User')
-    Phone_Number = models.CharField(max_length=12)
+    user = models.OneToOneField(User, related_name='profile', on_delete=models.CASCADE)
+    Phone_Number = models.CharField(max_length=12, null=True, blank=True)
     county = models.CharField(max_length=50, null=True, blank=True)
     constituency = models.CharField(max_length=50, null=True, blank=True)
     town = models.CharField(max_length=50, null=True, blank=True)
@@ -26,17 +26,16 @@ class Profile(models.Model):
     photo = models.ImageField(upload_to=get_file_path, null=True, blank=True)
     # code = models.CharField(max_length=6)
 
-    # @receiver(post_save, sender=User)
-    # def create_user_profile(sender, instance, created, **kwargs):
-    #     if created:
-    #         Profile.objects.create(user=instance)
-    #
-    # @receiver(post_save, sender=User)
-    # def save_user_profile(sender, instance, **kwargs):
-    #     instance.profile.save()
+
 
     def __str__(self):
         return self.Phone_Number
+
+# @receiver(post_save, sender=User)
+# def create_or_update_user_profile(sender, instance, created, **kwargs):
+#     if created:
+#         Profile.objects.create(user=instance)
+#     instance.profile.save()
 
 class Verification(models.Model):
     code = models.CharField(max_length=6)
